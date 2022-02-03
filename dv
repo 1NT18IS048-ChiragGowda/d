@@ -17,7 +17,7 @@ RUN go install -v
 ENTRYPOINT ["app","-single=true","-port=8080"]
 EOF
 
-docker build -t valkyrie-app:v0.0.1 .
+docker build -t valkyrie-app:v0.0.2 .
 
 cd ..
 cd marking
@@ -31,7 +31,7 @@ step 2:----------- Test the created Docker image -----------------
 
 cd ..
 cd valkyrie-app
-docker run -p 8080:8080 valkyrie-app:v0.0.1 &
+docker run -p 8080:8080 valkyrie-app:v0.0.2 &
 
 cd ..
 cd marking
@@ -49,7 +49,7 @@ cd valkyrie-app
 
 docker tag valkyrie-app:v0.0.2 gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-app:v0.0.2
 docker push gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-app:v0.0.2
-sed -i s#IMAGE_HERE#gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-app:v0.0.1#g k8s/deployment.yaml
+sed -i s#IMAGE_HERE#gcr.io/$GOOGLE_CLOUD_PROJECT/valkyrie-app:v0.0.2#g k8s/deployment.yaml
 
 
 
@@ -89,6 +89,8 @@ docker ps
 
 
 step 6:-------------------- Create a pipeline in Jenkins to deploy your app -----------------
+
+docker ps
 
 docker kill container_id
 
